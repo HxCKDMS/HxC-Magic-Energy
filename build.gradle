@@ -1,0 +1,79 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
+version = "1.7.10-1.0.0"
+group= "HxCKDMS.HxCMagicEnergy"
+archivesBaseName = "HxCMagicEnergy"
+
+dependencies {
+    runtime files('HxCCore-1.7.10-1.7.0-dev.jar')
+}
+
+minecraft {
+    mappings = "snapshot_20140925"
+    version = "1.7.10-10.13.4.1448-1.7.10"
+    runDir = "eclipse"
+}
+
+def root = project.projectDir.parentFile
+sourceSets{
+    main {
+        java {
+            srcDir new File(root, "src")
+        }
+        resources {
+            srcDir new File(root, "resources")
+        }
+    }
+}
+
+processResources {
+	from (sourceSets.main.resources.srcDirs) {
+		include '*.info'
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+}
+
+jar {
+	classifier = 'universal'
+
+    manifest {
+        attributes 'FMLAT': 'accessTransformer.cfg'
+        attributes "FMLCorePluginContainsFMLMod": "true"
+        attributes "FMLCorePlugin": 'HxCKDMS.HxCCore.Asm.HxCLoader'
+    }
+}
+
+task devJar(type: Jar) {
+	from sourceSets.main.output
+	classifier = 'dev'
+
+	manifest {
+        attributes 'FMLAT': 'accessTransformer.cfg'
+        attributes "FMLCorePluginContainsFMLMod": "true"
+        attributes "FMLCorePlugin": 'HxCKDMS.HxCCore.Asm.HxCLoader'
+    }
+}
+
+artifacts {
+	archives devJar
+}

@@ -1,0 +1,15 @@
+
+[
+  {
+    "modid": "HxCMagicEnergy",
+    "name": "HxC-Magic-Energy",
+    "description": "IDK",
+    "version": "1.0.0",
+    "credits": "",
+    "mcversion": "1.7.10",
+    "authors": ["§4HxCK§3D§eM§0S§r"],
+    "dependencies": [
+           "mod_MinecraftForge"
+    ]
+  }
+]
